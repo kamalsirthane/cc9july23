@@ -1,0 +1,55 @@
+<html>
+<head>
+	<title> CC App by Kamal Sir </title>
+	<style>
+		* { font-size:40px; }
+		body { background-color:lightblue; }
+	</style>
+	<script>
+	function convert()
+	{		
+		event.preventDefault();
+		let aid = document.getElementById("aid");
+		let ans = document.getElementById("ans");
+		if (aid.value == "")
+		{
+			alert("amt cannot be empty");
+			ans.innerHTML = "";
+			aid.focus();
+			return;
+		}
+		let urladd = "https://api.exchangerate-api.com/v4/latest/USD";
+		fetch(urladd)
+		.then(res => res.json())
+		.then(data => { 
+			let dollar = data["rates"]["INR"]
+			let d = parseFloat(aid.value);
+			let r =  d * dollar;
+			let msg = "amount in \u20B9" + r.toFixed(2);
+			ans.innerHTML = msg;
+		})
+		.catch(err => ans.innerHTML = "issue "  + err );
+	
+	}
+	</script>
+</head>
+<body>
+<center>
+	<h1> Live Currency Converter </h1>
+	<form onsubmit="convert()">
+	<input type="number" step="any" placeholder="enter amt in $$ " id="aid"/>
+	<br/><br/>
+	<input type="submit" value="Convert into RS" />
+	</form>
+	<h1 id="ans"> </h1>
+</center>
+</body>
+</html>
+
+
+
+
+
+
+
+
